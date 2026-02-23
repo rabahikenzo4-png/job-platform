@@ -4,47 +4,37 @@ on:
   schedule:
     - cron: '0 6 * * *'    # tous les jours à 6h du matin
     - cron: '0 18 * * *'   # tous les jours à 18h
-  workflow_dispatch:         # permet de lancer manuellement aussi
+  workflow_dispatch:         # permet de lancer manuellement
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Télécharger le code depuis GitHub
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Installer Python
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
 
-    # 3. Installer les dépendances
     - name: Installer les dépendances
-      run: |
-        pip install scrapy beautifulsoup4 selenium requests
-        pip install pandas openpyxl supabase python-dotenv
+      run: pip install -r requirements.txt
 
-    # 4. Installer Chrome pour Selenium
     - name: Installer Chrome
       run: |
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
 
-    # 5. Lancer le scraper
     - name: Lancer le scraping
       env:
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-      run: |
-        python scraping/france_travail/scraper_france_travail.py
+      run: python scraping/france_travail_scrap.py
 
-    # 6. Vérifier les offres expirées
-    - name: Vérifier les offres expirées
+    - name: Importer dans Supabase
       env:
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-      run: |
-        python scraping/france_travail/verifier_expiration.py
+      run: python database/import_supabase.py
