@@ -303,3 +303,4 @@ if __name__ == "__main__":
         print(f"      {offre['salary']}")
         print(f"      {offre['url']}")
         print()
+        
