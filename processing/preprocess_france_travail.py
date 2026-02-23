@@ -7,7 +7,7 @@ print("Dossier courant :", os.getcwd())
 # CHARGEMENT
 # ─────────────────────────────────────────────
 print("Chargement du fichier...")
-df = pd.read_excel(r"DATA/PAS_NETTOYE/france_travail.xlsx")
+df = pd.read_excel(r"data/raw/france_travail.xlsx")
 print(f" {len(df)} offres chargées\n")
 
 # ─────────────────────────────────────────────
@@ -243,7 +243,7 @@ print(df_final['type_contrat'].value_counts().head(4).to_string())
 # ─────────────────────────────────────────────
 # SAUVEGARDE
 # ─────────────────────────────────────────────
-df_final.to_excel(r"DATA/NETTOYE/clean_france_travail.xlsx", index=False)
+df_final.to_excel(r"data/processed/clean_france_travail.xlsx", index=False)
 print(f"\n Fichier sauvegardé : clean_france_travail.xlsx")
 print(f"   {len(df_final)} offres | {len(df_final.columns)} colonnes")
 

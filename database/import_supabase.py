@@ -11,7 +11,7 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 print(" Chargement du fichier nettoyé...")
-df = pd.read_excel(r"DATA/NETTOYE/clean_france_travail.xlsx")
+df = pd.read_excel(r"data/processed/clean_france_travail.xlsx")
 print(f" {len(df)} offres chargées")
 
 # dédoublonner uniquement sur l'id officiel

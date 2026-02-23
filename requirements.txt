@@ -1,0 +1,14 @@
+scrapy
+selenium
+beautifulsoup4
+requests
+pandas
+openpyxl
+supabase
+python-dotenv
+sentence-transformers
+scikit-learn
+numpy
+groq
+python-docx
+streamlit
