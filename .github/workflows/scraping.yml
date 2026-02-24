@@ -2,9 +2,9 @@ name: Scraping Automatique France Travail
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # tous les jours a 6h du matin 
-    - cron: '0 18 * * *' # tous les jours a 18h du soir
-  workflow_dispatch:
+    - cron: '0 6 * * *'    # tous les jours à 6h du matin
+    - cron: '0 18 * * *'   # tous les jours à 18h
+  workflow_dispatch:         # permet de lancer manuellement
 
 jobs:
   scrape:
@@ -33,13 +33,16 @@ jobs:
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: python scraping/france_travail_scrap.py
 
-    - name: 2 - Importer dans Supabase
+    - name: 2 - Nettoyer les données
+      run: python processing/preprocess_france_travail.py
+
+    - name: 3 - Importer dans Supabase
       env:
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: python database/import_supabase.py
 
-    - name: 3 - Vérifier les offres expirées
+    - name: 4 - Vérifier les offres expirées
       env:
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}

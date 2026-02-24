@@ -13,7 +13,7 @@ HEADERS = {
 }
 
 def tester_expiration():
-    print("📥 Chargement des offres actives depuis Supabase...")
+    print(" Chargement des offres actives depuis Supabase...")
     
     toutes = []
     offset = 0
