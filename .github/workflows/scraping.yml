@@ -2,7 +2,7 @@ name: Scraping Automatique France Travail
 
 on:
   schedule:
-    - cron: '0 6 * * *'    # tous les jours à 6h du matin
+    - cron: '0 4 * * *'    # tous les jours à 6h du matin
   workflow_dispatch:         # permet de lancer manuellement
 
 jobs:
