@@ -231,7 +231,7 @@ if __name__ == "__main__":
     liens = collecter_liens(KEYWORDS)
     
     # Sauvegarde intermédiaire des liens (sécurité)
-    pd.DataFrame(liens, columns=["url"]).to_excel(r"data/liks/france_travail_lien.xlsx", index=False)
+    pd.DataFrame(liens, columns=["url"]).to_excel(r"data/links/france_travail_lien.xlsx", index=False)
     print(" Liens sauvegardés dans france_travail_lien.xlsx")
     
     # 2. Parser toutes les offres en parallèle
