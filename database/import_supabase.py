@@ -54,26 +54,23 @@ def preparer_ligne(row):
     }
 
 # ─────────────────────────────────────────────
-# IMPORT PAR BATCH — chaque batch est dédoublonné
+# IMPORT PAR BATCH
 # ─────────────────────────────────────────────
-print("\n Début de l'import dans Supabase...")
+print("\ Début de l'import dans Supabase...")
 
-BATCH_SIZE = 50  # petit batch = plus stable
+BATCH_SIZE = 50
 total      = len(df)
 importees  = 0
 doublons   = 0
+reactivees = 0
 erreurs    = 0
 
 for i in range(0, total, BATCH_SIZE):
     batch_df = df.iloc[i:i + BATCH_SIZE]
-    
-    # préparer les données
+
     batch_data = [preparer_ligne(row) for _, row in batch_df.iterrows()]
-    
-    # filtrer les lignes sans id
     batch_data = [r for r in batch_data if r["id"] is not None]
-    
-    # dédoublonner dans le batch lui-même sur l'id
+
     seen_ids = set()
     batch_unique = []
     for r in batch_data:
@@ -82,7 +79,6 @@ for i in range(0, total, BATCH_SIZE):
             batch_unique.append(r)
 
     try:
-        # insert avec ignore des doublons déjà en base
         client.table("offres").insert(
             batch_unique,
             returning="minimal"
@@ -92,18 +88,48 @@ for i in range(0, total, BATCH_SIZE):
     except Exception as e:
         msg = str(e)
         if "duplicate" in msg.lower() or "23505" in msg:
-            # batch contient des offres déjà en base → insérer une par une
+            # insérer une par une pour gérer chaque cas
             for r in batch_unique:
                 try:
                     client.table("offres").insert(r, returning="minimal").execute()
                     importees += 1
-                except:
-                    doublons += 1
+
+                except Exception as e2:
+                    msg2 = str(e2)
+                    if "duplicate" in msg2.lower() or "23505" in msg2:
+
+                        # ─────────────────────────────────────────
+                        # CORRECTION PRINCIPALE
+                        # vérifier si l'offre est expirée en base
+                        # si oui → la remettre active
+                        # ─────────────────────────────────────────
+                        try:
+                            existing = client.table("offres")\
+                                .select("id, statut")\
+                                .eq("id", r["id"])\
+                                .execute()
+
+                            if existing.data and existing.data[0]["statut"] == "expiree":
+                                # offre republiée → on la remet active
+                                client.table("offres").update({
+                                    "statut":           "active",
+                                    "date_expiration":  None,
+                                    "date_publication": r["date_publication"]
+                                }).eq("id", r["id"]).execute()
+                                reactivees += 1
+                            else:
+                                # offre déjà active → vrai doublon
+                                doublons += 1
+
+                        except:
+                            doublons += 1
+                    else:
+                        erreurs += 1
         else:
             erreurs += len(batch_unique)
             print(f"    Erreur batch {i//BATCH_SIZE + 1} : {msg[:100]}")
 
-    print(f"   {min(i + BATCH_SIZE, total)}/{total} | importées: {importees} | doublons: {doublons} | erreurs: {erreurs}")
+    print(f"   {min(i + BATCH_SIZE, total)}/{total} | importées: {importees} | doublons: {doublons} | réactivées: {reactivees} | erreurs: {erreurs}")
 
 # ─────────────────────────────────────────────
 # RAPPORT FINAL
@@ -114,6 +140,7 @@ print("="*50)
 print(f"Total traitées    : {total}")
 print(f"Importées         : {importees}")
 print(f"Doublons ignorés  : {doublons}")
+print(f"Réactivées        : {reactivees}")
 print(f"Erreurs           : {erreurs}")
 
 count = client.table("offres").select("id", count="exact").execute()
