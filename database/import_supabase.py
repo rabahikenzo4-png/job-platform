@@ -29,7 +29,6 @@ def preparer_ligne(row):
 
     return {
         "id":               clean(row.get("id")),
-        "hash_offre":       clean(row.get("hash_offre")),
         "url":              clean(row.get("url")),
         "titre":            clean(row.get("titre")),
         "entreprise":       clean(row.get("entreprise")),
@@ -56,7 +55,7 @@ def preparer_ligne(row):
 # ─────────────────────────────────────────────
 # IMPORT PAR BATCH
 # ─────────────────────────────────────────────
-print("\ Début de l'import dans Supabase...")
+print("\n Début de l'import dans Supabase...")
 
 BATCH_SIZE = 50
 total      = len(df)

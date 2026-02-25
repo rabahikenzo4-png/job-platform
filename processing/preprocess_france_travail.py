@@ -182,11 +182,9 @@ avec_skills = (df['competences_extraites'] != "").sum()
 print(f"   → Offres avec compétences : {avec_skills}/{len(df)}")
 
 # ─────────────────────────────────────────────
-# 8. HASH BASÉ SUR L'ID (pas titre+entreprise)
+# 8. ID A CHANGER  NOUVEAUX ID = (ID+SOURCE)
 # ─────────────────────────────────────────────
-df['hash_offre'] = df['id'].apply(
-    lambda x: hashlib.md5(str(x).encode()).hexdigest()
-)
+df['id'] = df['id'].astype(str) + '_france_travail'
 
 # ─────────────────────────────────────────────
 # 9. DATASET FINAL
@@ -195,7 +193,6 @@ print("\n  Construction du dataset final...")
 
 df_final = pd.DataFrame({
     'id':               df['id'],
-    'hash_offre':       df['hash_offre'],
     'url':              df['url'],
     'titre':            df['titre'],
     'entreprise':       df['entreprise'],
