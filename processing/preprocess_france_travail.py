@@ -184,7 +184,7 @@ print(f"   → Offres avec compétences : {avec_skills}/{len(df)}")
 # ─────────────────────────────────────────────
 # 8. ID A CHANGER  NOUVEAUX ID = (ID+SOURCE)
 # ─────────────────────────────────────────────
-df['id'] = df['id'].astype(str) + '_france_travail'
+df['id'] = df['id'].astype(str) + 'france_travail'
 
 # ─────────────────────────────────────────────
 # 9. DATASET FINAL
