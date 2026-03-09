@@ -2,8 +2,8 @@ name: Scraping Automatique France Travail
 
 on:
   schedule:
-    - cron: '0 4 * * *'    # tous les jours à 6h du matin
-  workflow_dispatch:         # permet de lancer manuellement
+    - cron: '0 4 * * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -18,7 +18,7 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: Installer les dépendances
+    - name: Installer les dependances
       run: pip install -r requirements.txt
 
     - name: Installer Chrome
@@ -32,7 +32,7 @@ jobs:
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: python scraping/france_travail_scrap.py
 
-    - name: 2 - Nettoyer les données
+    - name: 2 - Nettoyer les donnees
       run: python processing/preprocess_france_travail.py
 
     - name: 3 - Importer dans Supabase
@@ -41,8 +41,22 @@ jobs:
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: python database/import_supabase.py
 
-    - name: 4 - Vérifier les offres expirées
+    - name: 4 - Verifier les offres expirees
       env:
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
       run: python scraping/verifier_expiration.py
+
+    - name: 5 - Lancer embeddings
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      run: python backend/calcul_embeddings.py
+
+    - name: 6 - Sauvegarder le cache embeddings
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add backend/embeddings.npy backend/offres_cache.json
+        git commit -m "Update embeddings cache" || echo "Rien a committer"
+        git push
