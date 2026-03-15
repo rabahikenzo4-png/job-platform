@@ -298,7 +298,7 @@ Ce projet est sous licence **MIT** — voir le fichier [LICENSE](LICENSE) pour p
 - Étudiant Master 1 Data Science — Université d'Alger 1 Benyoucef Benkhedda
 - GitHub : [@rabahikenzo4-png](https://github.com/rabahikenzo4-png)
 - Email : rabahikenzo4@gmail.com
-- LinkedIn : [Kenzo](https://linkedin.com/in/kenzo)
+- LinkedIn : [Kenzo](https://www.linkedin.com/in/rbhkenzo/)
 
 ---
 
