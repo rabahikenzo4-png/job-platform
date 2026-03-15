@@ -15,7 +15,7 @@
 
 **Emploitic** est une plateforme fullstack qui automatise la recherche d'emploi en combinant :
 
-- **Scraping quotidien** des offres France Travail via GitHub Actions
+- **Scraping quotidien** des offres de Travail via GitHub Actions
 - **Matching NLP sémantique** entre le profil utilisateur et les offres (SentenceTransformer + cosine similarity)
 - **Analyse ATS de CV** par IA (Groq LLaMA 3.3 70B) avec score et conseils
 - **CV Builder interactif** avec preview temps réel et génération PDF
