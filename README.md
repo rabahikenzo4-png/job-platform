@@ -55,7 +55,7 @@
 ### 🔍 Recherche d'offres
 - Recherche full-text avec filtres (ville, contrat, expérience)
 - Pagination côté serveur
-- Accès direct à l'offre originale France Travail
+- Accès direct à l'offre originale offre Travail
 
 ### 🤖 Matching NLP
 - Encodage sémantique du profil utilisateur
@@ -172,7 +172,7 @@ job-platform/
 │   │   └── App.jsx
 │   └── package.json
 ├── scraping/
-│   ├── scraper.py              # Scraping France Travail
+│   ├── scraper.py              # Scraping offre Travail
 │   ├── preprocess.py           # Nettoyage et normalisation
 │   └── import_supabase.py      # Import dans la base
 └── .github/
@@ -188,7 +188,7 @@ Le workflow tourne automatiquement chaque jour à 6h00 UTC :
 
 ```
 1. Checkout code
-2. Scraping France Travail (~3000 offres)
+2. Scraping offre Travail (~3000 offres)
 3. Preprocessing (déduplication, normalisation)
 4. Import Supabase (upsert par URL)
 5. Vérification expiration des offres
