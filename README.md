@@ -1,6 +1,6 @@
 # 🧠 Emploitic — Plateforme de Recrutement Intelligent
 
-> Plateforme de matching emploi basée sur le NLP sémantique — scraping automatisé des offres France Travail, analyse de CV par IA, et matching intelligent entre profils et offres.
+> Plateforme de matching emploi basée sur le NLP sémantique — scraping automatisé des offres de Travail, analyse de CV par IA, et matching intelligent entre profils et offres.
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.110-green?logo=fastapi)
