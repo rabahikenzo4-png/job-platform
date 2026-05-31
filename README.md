@@ -1,4 +1,4 @@
-# 🧠 Emploitic — Plateforme de Recrutement Intelligent
+# 🧠 Emplois Data — Plateforme d'emplois Intelligent
 
 > Plateforme de matching emploi basée sur le NLP sémantique — scraping automatisé des offres de Travail, analyse de CV par IA, et matching intelligent entre profils et offres.
 
@@ -13,7 +13,7 @@
 
 ## 📌 Aperçu
 
-**Emploitic** est une plateforme fullstack qui automatise la recherche d'emploi en combinant :
+**Emplois Data** est une plateforme fullstack qui automatise la recherche d'emploi en combinant :
 
 - **Scraping quotidien** des offres de Travail via GitHub Actions
 - **Matching NLP sémantique** entre le profil utilisateur et les offres (SentenceTransformer + cosine similarity)
@@ -123,7 +123,7 @@ Créer le fichier `.env` :
 ```env
 SUPABASE_URL=https://xxxx.supabase.co
 SUPABASE_KEY=eyJ...
-SECRET_KEY=emploitic_secret_key_2026
+SECRET_KEY=_secret_key_2026
 GROQ_API_KEY=gsk_...
 ```
 
